@@ -16,6 +16,8 @@ from transformers.models.llama.modeling_llama import (
     LlamaRotaryEmbedding,
     apply_rotary_pos_emb,
     LlamaForCausalLM,
+    LlamaLinearScalingRotaryEmbedding,
+    LlamaDynamicNTKScalingRotaryEmbedding,
 )
 import types
 

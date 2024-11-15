@@ -14,7 +14,7 @@ from tqdm import tqdm
 from streaming_llm.utils import load, download_url, load_jsonl
 
 from transformers.models.llama.modeling_llama import LlamaAttention
-from utils_real_drop.modify_llama import H2OLlamaAttention_streaming, H2OLlamaForCausalLM_streaming
+from utils_real_drop.modify_llama import H2OLlamaAttention_streaming, H2OLlamaForCausalLM_streaming,H2OLlamaAttention
 
 @torch.no_grad()
 def greedy_generate(model, tokenizer, input_ids, past_key_values, max_gen_len):
