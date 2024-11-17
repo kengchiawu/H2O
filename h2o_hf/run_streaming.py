@@ -2,16 +2,19 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
+import os
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
+
 import torch
 import argparse
 import json
-import os
+
 import time
 import re
 import sys
 
 from tqdm import tqdm
-from streaming_llm.utils import load, download_url, load_jsonl
+from utils_real_drop.stream import load, download_url, load_jsonl
 
 from transformers.models.llama.modeling_llama import LlamaAttention
 from utils_real_drop.modify_llama import H2OLlamaAttention_streaming, H2OLlamaForCausalLM_streaming,H2OLlamaAttention
@@ -90,7 +93,7 @@ def streaming_inference_heavy_hitter(model, tokenizer, prompts, kv_cache=None, m
                 if isinstance(m, H2OLlamaAttention):
                     layer_idx = int(name.split(".")[2])
                     past_key_values[layer_idx] = m.kv_cache.evict_for_space(past_key_values[layer_idx], space_needed)   
-
+                    import pdb; pdb.set_trace()  # 设置断点
         past_key_values = greedy_generate(
             model, tokenizer, input_ids, past_key_values, max_gen_len=max_gen_len
         )
@@ -114,8 +117,10 @@ def main(args):
     for sample in list_data:
         prompts += sample["turns"]
 
+    args.enable_streaming_with_H2O = True
     if args.enable_streaming_with_H2O:
         kv_cache = None
+        print("Streaming with H2O enabled")
         streaming_inference_heavy_hitter(
             model,
             tokenizer,
