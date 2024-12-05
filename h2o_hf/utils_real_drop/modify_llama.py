@@ -249,7 +249,7 @@ class H2OKVCache_LayerWise:
         k_seq_dim=2,
         v_seq_dim=2,
     ):
-        print(f"H2OKVCache-LayerWise: {hh_size}, {recent_size}")
+        #print(f"H2OKVCache-LayerWise: {hh_size}, {recent_size}")
         self.hh_size = hh_size
         self.recent_size = recent_size
         self.cache_size = hh_size + recent_size
